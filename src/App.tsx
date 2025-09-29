@@ -1,7 +1,12 @@
+import { Routes, Route } from "react-router-dom";
+import BoardPage from "./pages/BoardPage";
+
 export default function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-red-600 underline"></h1>
+    <div className="relative min-h-screen">
+      <Routes>
+        <Route path="/board/:id" element={<BoardPage />} />
+      </Routes>
     </div>
   );
 }
