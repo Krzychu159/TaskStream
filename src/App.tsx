@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import BoardPage from "./pages/BoardPage";
+import "./index.css";
 
 export default function App() {
   return (
