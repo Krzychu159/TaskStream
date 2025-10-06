@@ -3,6 +3,8 @@ import { useBoard } from "../hooks/useBoard";
 import { useLists } from "@/features/list/hooks/useLists";
 import ListColumn from "@/features/list/components/ListColumn";
 import { useCards } from "@/features/card/hooks/useCards";
+import Loader from "@/ui/Loader";
+import ErrorMessage from "@/ui/ErrorMessage";
 
 export const BoardScreen = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,9 +27,9 @@ export const BoardScreen = () => {
   } = useCards(boardId);
 
   if (boardLoading || listsLoading || cardsLoading)
-    return <div>Loading board...</div>;
+    return <Loader text="Loading board..." />;
   if (boardError || listsError || cardsError)
-    return <div>Error loading board</div>;
+    return <ErrorMessage message="Failed to load board data." />;
   if (!board) return <div>Board not found</div>;
 
   return (
@@ -39,7 +41,11 @@ export const BoardScreen = () => {
           <ListColumn
             key={list.id}
             list={list}
-            cards={cards?.filter((c) => c.list_id === list.id) || []}
+            cards={
+              cards?.filter(
+                (c: { list_id: number }) => c.list_id === list.id
+              ) || []
+            }
           />
         ))}
       </div>
