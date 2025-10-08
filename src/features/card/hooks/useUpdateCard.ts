@@ -9,7 +9,13 @@ export function useUpdateCard(boardId: number) {
     mutationFn: (variables: { cardId: number; updates: Partial<Card> }) =>
       updateCard(variables.cardId, variables.updates),
 
-    onSuccess: () => {
+    onMutate: ({ cardId, updates }) => {
+      queryClient.setQueryData<Card[]>(["cards", boardId], (old = []) =>
+        old.map((card) => (card.id === cardId ? { ...card, ...updates } : card))
+      );
+    },
+
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["cards", boardId] });
     },
   });
