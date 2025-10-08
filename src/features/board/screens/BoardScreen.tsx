@@ -5,10 +5,16 @@ import ListColumn from "@/features/list/components/ListColumn";
 import { useCards } from "@/features/card/hooks/useCards";
 import Loader from "@/ui/Loader";
 import ErrorMessage from "@/ui/ErrorMessage";
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabaseClient";
+import type { Card } from "@/lib/types";
 
 export const BoardScreen = () => {
   const { id } = useParams<{ id: string }>();
   const boardId = Number(id);
+
+  const queryClient = useQueryClient();
 
   const {
     data: board,
@@ -26,6 +32,45 @@ export const BoardScreen = () => {
     error: cardsError,
   } = useCards(boardId);
 
+  // --- REALTIME ---
+  useEffect(() => {
+    const channel = supabase
+      .channel(`cards-changes-${boardId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "cards",
+          filter: `board_id=eq.${boardId}`,
+        },
+        (payload) => {
+          const { eventType, new: newCard, old: oldCard } = payload;
+
+          queryClient.setQueryData<Card[]>(["cards", boardId], (old = []) => {
+            switch (eventType) {
+              case "INSERT":
+                return [...old, newCard as Card];
+              case "UPDATE":
+                return old.map((c) =>
+                  c.id === (newCard as Card).id ? (newCard as Card) : c
+                );
+              case "DELETE":
+                return old.filter((c) => c.id !== (oldCard as Card).id);
+              default:
+                return old;
+            }
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [boardId, queryClient]);
+
+  // --- UI ---
   if (boardLoading || listsLoading || cardsLoading)
     return <Loader text="Loading board..." />;
   if (boardError || listsError || cardsError)
@@ -41,11 +86,7 @@ export const BoardScreen = () => {
           <ListColumn
             key={list.id}
             list={list}
-            cards={
-              cards?.filter(
-                (c: { list_id: number }) => c.list_id === list.id
-              ) || []
-            }
+            cards={cards?.filter((c) => c.list_id === list.id) || []}
           />
         ))}
       </div>
