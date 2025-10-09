@@ -27,7 +27,10 @@
     /* 🔑 Alias @ → src/ */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@features/*": ["src/features/*"],
+      "@lib/*": ["src/lib/*"],
+      "@ui/*": ["src/ui/*"]
     }
   },
   "include": ["src"]

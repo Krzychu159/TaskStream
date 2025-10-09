@@ -18,7 +18,6 @@ export function useCreateCard(boardId: number) {
         variables.description
       ),
 
-    // ✅ tylko prosty optimistic update
     onMutate: (newCard) => {
       const optimisticCard: Card = {
         id: Date.now(), // fake ID
@@ -39,7 +38,6 @@ export function useCreateCard(boardId: number) {
       ]);
     },
 
-    // po wszystkim odśwież dane
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["cards", boardId] });
     },

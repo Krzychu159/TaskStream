@@ -31,6 +31,8 @@ export const createCard = async (
     .select()
     .single();
   if (error) throw error;
+  console.log("Creating card:", { board_id, list_id, title, description });
+
   return data;
 };
 
