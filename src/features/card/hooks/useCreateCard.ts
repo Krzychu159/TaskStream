@@ -1,45 +1,31 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCard } from "../api/cardApi";
-import type { Card } from "@/lib/types";
 
 export function useCreateCard(boardId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (variables: {
+    mutationFn: async (variables: {
       listId: number;
       title: string;
       description?: string;
-    }) =>
-      createCard(
+    }) => {
+      const result = await createCard(
         boardId,
         variables.listId,
         variables.title,
         variables.description
-      ),
-
-    onMutate: (newCard) => {
-      const optimisticCard: Card = {
-        id: Date.now(), // fake ID
-        board_id: boardId,
-        list_id: newCard.listId,
-        title: newCard.title,
-        description: newCard.description || "",
-        position: 0,
-        created_by: "temp",
-        created_at: new Date().toISOString(),
-        archived: false,
-        due: null,
-      };
-
-      queryClient.setQueryData<Card[]>(["cards", boardId], (old = []) => [
-        ...old,
-        optimisticCard,
-      ]);
+      );
+      if (!result) throw new Error("Nie udało się utworzyć karty.");
+      return result;
     },
 
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["cards", boardId] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["cards", boardId] });
+    },
+
+    onError: (error) => {
+      console.error(" Błąd przy tworzeniu karty:", error);
     },
   });
 }

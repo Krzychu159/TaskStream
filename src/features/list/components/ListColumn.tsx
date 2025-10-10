@@ -9,23 +9,19 @@ type Props = {
 };
 
 export default function ListColumn({ list, cards }: Props) {
-  const { mutateAsync: createCard } = useCreateCard(list.board_id);
+  const { mutateAsync: createCard, isPending } = useCreateCard(list.board_id);
 
   const [showForm, setShowForm] = useState(false);
   const [newTitle, setNewTitle] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async () => {
     if (!newTitle.trim()) return;
-    setIsSubmitting(true);
     try {
       await createCard({ listId: list.id, title: newTitle });
       setNewTitle("");
       setShowForm(false);
     } catch (err) {
       console.error("Failed to create card:", err);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -38,7 +34,8 @@ export default function ListColumn({ list, cards }: Props) {
       ) : (
         <div className="text-sm text-gray-500 italic">(No cards yet)</div>
       )}
-      <div className="bg-white rounded shadow p-3 mb-3 mt-2 cursor-pointer hover:bg-gray-100">
+
+      <div className="bg-white rounded shadow p-3 mb-3 mt-2">
         {showForm ? (
           <div>
             <textarea
@@ -46,17 +43,17 @@ export default function ListColumn({ list, cards }: Props) {
               placeholder="Card title"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              disabled={isSubmitting}
+              disabled={isPending}
               rows={2}
               autoFocus
             />
             <div className="mt-2 flex gap-2">
               <button
                 onClick={handleSubmit}
-                disabled={isSubmitting}
+                disabled={isPending}
                 className="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600 disabled:opacity-50"
               >
-                {isSubmitting ? "Adding..." : "Add"}
+                {isPending ? "Adding..." : "Add"}
               </button>
               <button
                 onClick={() => setShowForm(false)}
@@ -67,9 +64,11 @@ export default function ListColumn({ list, cards }: Props) {
             </div>
           </div>
         ) : (
-          <h3 className="text-xs" onClick={() => setShowForm(true)}>
-            {" "}
-            +Add new card
+          <h3
+            className="text-xs cursor-pointer hover:underline"
+            onClick={() => setShowForm(true)}
+          >
+            + Add new card
           </h3>
         )}
       </div>
