@@ -10,8 +10,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabaseClient";
 import type { Card } from "@/lib/types";
 
+import CardModal from "@/features/card/components/CardModal";
+
 export const BoardScreen = () => {
   const { id } = useParams<{ id: string }>();
+
   const boardId = Number(id);
 
   const queryClient = useQueryClient();
@@ -90,6 +93,7 @@ export const BoardScreen = () => {
           />
         ))}
       </div>
+      <CardModal />
     </div>
   );
 };

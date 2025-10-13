@@ -6,8 +6,10 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 import { ui } from "@/ui/styles";
 import { motion } from "framer-motion";
+import { useCardModal } from "@/features/card/state/useCardModal";
 
 export default function CardItem({ card }: { card: Card }) {
+  const { open } = useCardModal();
   const { mutateAsync: deleteCard } = useDeleteCard(card.board_id);
   const { mutateAsync: updateCard, isPending: isUpdating } = useUpdateCard(
     card.board_id
@@ -54,7 +56,11 @@ export default function CardItem({ card }: { card: Card }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className="bg-white rounded shadow p-3 mb-3 flex justify-between items-center"
+      className="bg-white rounded shadow p-3 mb-3 flex justify-between items-center cursor-pointer hover:bg-gray-50"
+      onClick={() => {
+        if (!isTitleEditing) open(card.id);
+        console.log("Card clicked", card.id);
+      }}
     >
       {isTitleEditing ? (
         <input
@@ -77,7 +83,7 @@ export default function CardItem({ card }: { card: Card }) {
         />
       ) : (
         <h3
-          className="font-medium cursor-pointer"
+          className="font-medium cursor-text  "
           onClick={() => setIsTitleEditing(true)}
         >
           {card.title}

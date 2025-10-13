@@ -12,6 +12,16 @@ export const fetchCardsByBoardId = async (boardId: number) => {
   return data;
 };
 
+export const fetchCardById = async (cardId: number) => {
+  const { data, error } = await supabase
+    .from("cards")
+    .select("*")
+    .eq("id", cardId)
+    .single();
+  if (error) throw error;
+  return data;
+};
+
 export const createCard = async (
   board_id: number,
   list_id: number,
