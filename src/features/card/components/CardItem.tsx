@@ -59,11 +59,11 @@ export default function CardItem({ card }: { card: Card }) {
       className="bg-white rounded shadow p-3 mb-3 flex justify-between items-center cursor-pointer hover:bg-gray-50"
       onClick={() => {
         if (!isTitleEditing) open(card.id);
-        console.log("Card clicked", card.id);
       }}
     >
       {isTitleEditing ? (
         <input
+          onClick={(e) => e.stopPropagation()}
           placeholder="Title"
           onChange={(e) => setTitle(e.target.value)}
           value={title}
@@ -84,14 +84,20 @@ export default function CardItem({ card }: { card: Card }) {
       ) : (
         <h3
           className="font-medium cursor-text  "
-          onClick={() => setIsTitleEditing(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsTitleEditing(true);
+          }}
         >
           {card.title}
         </h3>
       )}
       <button
         disabled={isDeleting}
-        onClick={handleDelete}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDelete();
+        }}
         className="cursor-pointer p-1 hover:bg-gray-200 rounded disabled:opacity-50"
       >
         {isDeleting ? (
