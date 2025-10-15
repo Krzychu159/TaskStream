@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 import { useState } from "react";
 import { ui } from "@/ui/styles";
 import { InlineLoader } from "@/ui/InlineLoader";
+import CommentList from "@/features/comment/components/CommentList";
 
 export default function CardModal() {
   const { openCardId, close } = useCardModal();
@@ -123,6 +124,8 @@ export default function CardModal() {
                   <p className="text-gray-600 text-sm mb-4">
                     {card.description || "No description"}
                   </p>
+
+                  <CommentList cardId={card.id} />
 
                   {!isDeleting ? (
                     <div className="flex gap-3">

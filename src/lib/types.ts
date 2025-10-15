@@ -25,3 +25,11 @@ export type Board = {
   owner_id: string;
   created_at: string;
 };
+
+export type Comment = {
+  id: number;
+  card_id: number;
+  author_id: string;
+  text: string;
+  created_at: string;
+};
