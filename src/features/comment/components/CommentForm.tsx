@@ -10,18 +10,13 @@ type Props = {
 export default function CommentForm({ cardId }: Props) {
   const [text, setText] = useState("");
 
-  const { mutateAsync: createComment, isPending } = useCreateComment(
-    cardId,
-    text
-  );
+  const { mutateAsync: createComment, isPending } = useCreateComment(cardId);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!text.trim()) return;
 
-    createComment().then(() => {
-      setText("");
-    });
+    await createComment(text);
     console.log("Submitting comment:", text);
     setText("");
   };

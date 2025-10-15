@@ -7,9 +7,8 @@ export function useCreateComment(cardId: number) {
 
   return useMutation({
     mutationFn: (text: string) => addComment(cardId, text),
-
     onSuccess: (newComment) => {
-      qc.setQueryData<Comment[]>(["comments", cardId], (old) => [
+      qc.setQueryData(["comments", cardId], (old: Comment[] | undefined) => [
         ...(old || []),
         newComment,
       ]);
