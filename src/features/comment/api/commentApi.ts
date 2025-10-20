@@ -25,3 +25,25 @@ export const addComment = async (cardId: number, text: string) => {
   if (error) throw error;
   return data;
 };
+
+export const deleteComment = async (commentId: number) => {
+  const { data, error } = await supabase
+    .from("comments")
+    .delete()
+    .eq("id", commentId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+};
+
+export const updateComment = async (commentId: number, text: string) => {
+  const { data, error } = await supabase
+    .from("comments")
+    .update({ text })
+    .eq("id", commentId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+};
