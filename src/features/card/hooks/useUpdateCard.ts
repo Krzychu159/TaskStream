@@ -13,10 +13,16 @@ export function useUpdateCard(boardId: number) {
       queryClient.setQueryData<Card[]>(["cards", boardId], (old = []) =>
         old.map((card) => (card.id === cardId ? { ...card, ...updates } : card))
       );
+
+      queryClient.setQueryData<Card>(["card", cardId], (old) =>
+        old ? { ...old, ...updates } : old
+      );
     },
 
-    onSettled: () => {
+    onSettled: (_data, _error, variables) => {
+      const { cardId } = variables;
       queryClient.invalidateQueries({ queryKey: ["cards", boardId] });
+      queryClient.invalidateQueries({ queryKey: ["card", cardId] });
     },
   });
 }

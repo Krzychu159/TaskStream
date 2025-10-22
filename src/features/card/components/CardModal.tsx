@@ -9,6 +9,7 @@ import { useState } from "react";
 import { ui } from "@/ui/styles";
 import { InlineLoader } from "@/ui/InlineLoader";
 import CommentList from "@/features/comment/components/CommentList";
+import CommentForm from "@/features/comment/components/CommentForm";
 
 export default function CardModal() {
   const { openCardId, close } = useCardModal();
@@ -21,10 +22,14 @@ export default function CardModal() {
 
   const [isTitleEditing, setIsTitleEditing] = useState(false);
   const [title, setTitle] = useState(card?.title || "");
+
+  const [isDescriptionEditing, setIsDescriptionEditing] = useState(false);
+  const [description, setDescription] = useState(card?.description || "");
+
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleUpdate = async () => {
-    if (!card) return; // 🔒 bezpieczeństwo
+    if (!card) return;
     if (title.trim() === "") {
       toast.error("Title cannot be empty");
       setTitle(card.title);
@@ -35,6 +40,25 @@ export default function CardModal() {
       await updateCard({ cardId: card.id, updates: { title } });
       setIsTitleEditing(false);
       setTitle(card.title);
+      toast.success("Card updated successfully!");
+    } catch (err) {
+      toast.error("Failed to update card");
+      console.error("Failed to update card:", err);
+    }
+  };
+
+  const handleUpdateDescription = async () => {
+    if (!card) return;
+    if (description.trim() === "") {
+      toast.error("Description cannot be empty");
+      setDescription(card.description || "");
+      return;
+    }
+
+    try {
+      await updateCard({ cardId: card.id, updates: { description } });
+      setIsDescriptionEditing(false);
+      setDescription(description);
       toast.success("Card updated successfully!");
     } catch (err) {
       toast.error("Failed to update card");
@@ -121,11 +145,39 @@ export default function CardModal() {
                     )}
                   </Dialog.Title>
 
-                  <p className="text-gray-600 text-sm mb-4">
-                    {card.description || "No description"}
-                  </p>
+                  {isDescriptionEditing ? (
+                    <textarea
+                      placeholder="Description"
+                      onChange={(e) => setDescription(e.target.value)}
+                      value={description}
+                      onBlur={handleUpdateDescription}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleUpdateDescription();
+                        }
+                        if (e.key === "Escape") {
+                          setDescription(card.description || "");
+                          setIsDescriptionEditing(false);
+                        }
+                      }}
+                      className={`${ui.input} ${
+                        isUpdating ? "opacity-50" : ""
+                      } w-full mr-2 h-24`}
+                      autoFocus
+                      disabled={isUpdating}
+                    />
+                  ) : (
+                    <div
+                      className=" text-gray-600 text-sm mb-4 text-wrap cursor-text whitespace-pre-wrap"
+                      onClick={() => setIsDescriptionEditing(true)}
+                    >
+                      {card.description || "No description"}
+                    </div>
+                  )}
 
                   <CommentList cardId={card.id} />
+                  <CommentForm cardId={card.id} />
 
                   {!isDeleting ? (
                     <div className="flex gap-3">

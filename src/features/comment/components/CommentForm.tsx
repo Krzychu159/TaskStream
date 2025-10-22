@@ -28,7 +28,7 @@ export default function CommentForm({ cardId }: Props) {
         placeholder="Write a comment..."
         value={text}
         onChange={(e) => setText(e.target.value)}
-        rows={3}
+        rows={2}
         autoFocus
       />
       {isPending ? (
