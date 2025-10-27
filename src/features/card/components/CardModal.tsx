@@ -10,6 +10,7 @@ import { ui } from "@/ui/styles";
 import { InlineLoader } from "@/ui/InlineLoader";
 import CommentList from "@/features/comment/components/CommentList";
 import CommentForm from "@/features/comment/components/CommentForm";
+import { usePermissions } from "@/features/auth/hooks/usePermissions";
 
 export default function CardModal() {
   const { openCardId, close } = useCardModal();
@@ -27,6 +28,8 @@ export default function CardModal() {
   const [description, setDescription] = useState(card?.description || "");
 
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const { canEditCard, canDeleteCard } = usePermissions();
 
   const handleUpdate = async () => {
     if (!card) return;
@@ -138,7 +141,15 @@ export default function CardModal() {
                     ) : (
                       <p
                         className="font-medium cursor-text"
-                        onClick={() => setIsTitleEditing(true)}
+                        onClick={() => {
+                          if (canEditCard(card)) {
+                            setIsTitleEditing(true);
+                          } else {
+                            toast.error(
+                              "You do not have permission to edit this card's title."
+                            );
+                          }
+                        }}
                       >
                         {card.title}
                       </p>
@@ -170,7 +181,15 @@ export default function CardModal() {
                   ) : (
                     <div
                       className=" text-gray-600 text-sm mb-4 text-wrap cursor-text whitespace-pre-wrap"
-                      onClick={() => setIsDescriptionEditing(true)}
+                      onClick={() => {
+                        if (canEditCard(card)) {
+                          setIsDescriptionEditing(true);
+                        } else {
+                          toast.error(
+                            "You do not have permission to edit this card's description."
+                          );
+                        }
+                      }}
                     >
                       {card.description || "No description"}
                     </div>
@@ -187,11 +206,24 @@ export default function CardModal() {
                       >
                         Close
                       </button>
+
                       <button
                         onClick={() => {
-                          handleDelete();
+                          if (canDeleteCard(card)) {
+                            handleDelete();
+                          } else {
+                            toast.error(
+                              "You do not have permission to delete this card."
+                            );
+                          }
                         }}
-                        className={`${ui.button.base} ${ui.button.danger} mt-4`}
+                        className={`${ui.button.base} ${
+                          ui.button.danger
+                        } mt-4 ${
+                          isDeleting || !canDeleteCard(card)
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }`}
                       >
                         Delete
                       </button>

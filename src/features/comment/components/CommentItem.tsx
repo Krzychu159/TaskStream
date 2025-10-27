@@ -1,29 +1,38 @@
 import { useState } from "react";
 import { useUpdateComment } from "../hooks/useUpdateComment";
+import { useDeleteComment } from "../hooks/useDeleteComment";
+import { usePermissions } from "@/features/auth/hooks/usePermissions";
+import { InlineLoader } from "@/ui/InlineLoader";
 import { toast } from "react-hot-toast";
 import { ui } from "@/ui/styles";
-import { useDeleteComment } from "../hooks/useDeleteComment";
-import { InlineLoader } from "@/ui/InlineLoader";
+import type { Comment } from "@/lib/types";
 
-export default function Commentitem({
+type CommentWithAuthor = Comment & {
+  profiles?: {
+    full_name?: string;
+  };
+};
+
+export default function CommentItem({
   comment,
 }: {
-  comment: { id: number; text: string; created_at: string };
+  comment: CommentWithAuthor;
 }) {
   const { mutateAsync: updateComment, isPending } = useUpdateComment(
-    comment?.id || 0
+    comment.id
   );
   const { mutateAsync: deleteComment, isPending: isDeleting } =
-    useDeleteComment(comment?.id || 0);
+    useDeleteComment(comment.id);
 
-  const [text, setText] = useState(comment.text);
+  const [text, setText] = useState(comment.text || "");
   const [isEditing, setIsEditing] = useState(false);
 
+  const { canDeleteComment } = usePermissions();
+
   const handleSave = async () => {
-    if (!comment) return;
-    if (text.trim() === "") {
+    if (!text.trim()) {
       toast.error("Comment text cannot be empty");
-      setText(comment.text);
+      setText(comment.text || "");
       return;
     }
     try {
@@ -37,7 +46,6 @@ export default function Commentitem({
   };
 
   const handleDelete = async () => {
-    if (!comment) return;
     try {
       await deleteComment(comment.id);
       toast.success("Comment deleted successfully!");
@@ -47,9 +55,7 @@ export default function Commentitem({
     }
   };
 
-  if (isDeleting) {
-    return <InlineLoader />;
-  }
+  if (isDeleting) return <InlineLoader />;
 
   return (
     <div key={comment.id} className="mb-2 p-2 border rounded bg-gray-50">
@@ -74,21 +80,39 @@ export default function Commentitem({
           }}
         />
       ) : (
-        <p className="text-sm" onClick={() => setIsEditing(true)}>
+        <p className="text-sm cursor-text" onClick={() => setIsEditing(true)}>
           {comment.text}
         </p>
       )}
-      <div className="text-xs text-gray-500">By: Author name</div>
-      <div className="flex justify-between">
+
+      <div className="text-xs text-gray-500">
+        By: {comment.profiles?.full_name || "Unknown user"}
+      </div>
+
+      <div className="flex justify-between mt-1">
         <div className="text-xs text-gray-400">
-          {new Date(comment.created_at).toLocaleString()}
+          {comment.created_at
+            ? new Date(comment.created_at).toLocaleString()
+            : ""}
         </div>
-        <div
-          className="text-xs text-gray-400 cursor-pointer hover:text-red-400 hover:underline"
-          onClick={() => handleDelete()}
+
+        <button
+          className={`text-xs hover:text-red-500 hover:underline transition ${
+            isDeleting || !canDeleteComment(comment)
+              ? "opacity-50 cursor-not-allowed text-gray-400"
+              : "text-gray-500"
+          }`}
+          disabled={isDeleting || !canDeleteComment(comment)}
+          onClick={() => {
+            if (canDeleteComment(comment)) {
+              handleDelete();
+            } else {
+              toast.error("You do not have permission to delete this comment.");
+            }
+          }}
         >
           Delete
-        </div>
+        </button>
       </div>
     </div>
   );

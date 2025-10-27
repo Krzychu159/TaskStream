@@ -13,12 +13,15 @@ export default function CommentList({ cardId }: Props) {
     isLoading: commentsLoading,
     error: commentsError,
   } = useComments(cardId);
+
   if (commentsLoading) return <Loader />;
   if (commentsError) return <ErrorMessage message={commentsError.message} />;
   return (
     <div>
-      {comments?.length || 1 > 0 ? (
-        comments?.map((comment) => (
+      <h3 className="text-sm font-medium text-gray-700 mb-2">Comments</h3>
+
+      {comments && comments.length > 0 ? (
+        comments.map((comment) => (
           <CommentItem key={comment.id} comment={comment} />
         ))
       ) : (

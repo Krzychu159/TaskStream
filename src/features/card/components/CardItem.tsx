@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ui } from "@/ui/styles";
 import { motion } from "framer-motion";
 import { useCardModal } from "@/features/card/state/useCardModal";
+import { usePermissions } from "@/features/auth/hooks/usePermissions";
 
 export default function CardItem({ card }: { card: Card }) {
   const { open } = useCardModal();
@@ -18,6 +19,8 @@ export default function CardItem({ card }: { card: Card }) {
   const [isTitleEditing, setIsTitleEditing] = useState(false);
   const [title, setTitle] = useState(card.title);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const { canDeleteCard } = usePermissions();
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -96,14 +99,20 @@ export default function CardItem({ card }: { card: Card }) {
         disabled={isDeleting}
         onClick={(e) => {
           e.stopPropagation();
-          handleDelete();
+          if (canDeleteCard(card)) {
+            handleDelete();
+          } else {
+            toast.error("You do not have permission to delete this card.");
+          }
         }}
         className="cursor-pointer p-1 hover:bg-gray-200 rounded disabled:opacity-50"
       >
         {isDeleting ? (
           <span className="animate-pulse text-gray-400 text-xs">...</span>
-        ) : (
+        ) : canDeleteCard(card) ? (
           <FaRegTrashAlt />
+        ) : (
+          <FaRegTrashAlt className="text-gray-400 cursor-not-allowed" />
         )}
       </button>
     </motion.div>
