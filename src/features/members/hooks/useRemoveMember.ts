@@ -7,9 +7,7 @@ export const useRemoveMember = (boardId: number) => {
   return useMutation({
     mutationFn: async (userId: string) => {
       const result = await removeBoardMember(boardId, userId);
-      if (!result) {
-        throw new Error("Failed to remove member");
-      }
+      if (!result) throw new Error("Failed to remove member");
       return result;
     },
     onSuccess: async () => {

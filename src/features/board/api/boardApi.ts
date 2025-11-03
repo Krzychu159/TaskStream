@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabaseClient";
+import type { Board } from "@/lib/types";
 
 export const fetchBoard = async (id: number) => {
   const { data, error } = await supabase
@@ -37,6 +38,21 @@ export const fetchBoardsForUser = async (userId?: string) => {
     .select("*")
     .or(`owner_id.eq.${userId},id.in.(${ids.join(",")})`)
     .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data;
+};
+
+export const updateBoard = async (
+  id: number,
+  updates: Partial<Pick<Board, "title">> & { description?: string }
+) => {
+  const { data, error } = await supabase
+    .from("boards")
+    .update(updates)
+    .eq("id", id)
+    .select()
+    .single();
 
   if (error) throw error;
   return data;

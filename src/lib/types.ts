@@ -18,11 +18,11 @@ export type Card = {
   due: string | null;
   archived: boolean;
 };
-
 export type Board = {
   id: number;
   title: string;
   owner_id: string;
+  description?: string;
   created_at: string;
 };
 
@@ -32,4 +32,13 @@ export type Comment = {
   author_id: string;
   text: string;
   created_at: string;
+};
+
+export type BoardMember = {
+  user_id: string;
+  role: string;
+  profiles?: {
+    full_name: string;
+    email: string;
+  };
 };

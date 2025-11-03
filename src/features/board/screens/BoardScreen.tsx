@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useBoard } from "../hooks/useBoard";
 import { useLists } from "@/features/list/hooks/useLists";
 import ListColumn from "@/features/list/components/ListColumn";
@@ -12,9 +12,7 @@ import type { Card } from "@/lib/types";
 import { useDndHandlers } from "../hooks/useDndHandlers";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import type { DropResult } from "@hello-pangea/dnd";
-
 import CardModal from "@/features/card/components/CardModal";
-import toast from "react-hot-toast";
 
 export const BoardScreen = () => {
   const { id } = useParams<{ id: string }>();
@@ -91,21 +89,6 @@ export const BoardScreen = () => {
   return (
     <>
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-6">{board.title}</h1>
-        <div className="flex gap-5 text-xs mb-4 text-gray-600  border-b border-gray-600 pb-2 w-fit">
-          <Link to={`#/boards/${boardId}`}>
-            <span>Workspace</span>
-          </Link>
-          <Link to={`#/boards/${boardId}/members`}>
-            <span>Members</span>
-          </Link>
-          <span
-            className="cursor-pointer"
-            onClick={() => toast.error("This option is not ready yet")}
-          >
-            Edit Board
-          </span>
-        </div>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="board" direction="horizontal" type="list">
             {(provided) => (

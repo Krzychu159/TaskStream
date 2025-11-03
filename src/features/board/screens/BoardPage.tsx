@@ -14,10 +14,8 @@ export default function BoardPage() {
 
   return (
     <div className="p-4">
-      {/* 🔹 Header */}
       <h1 className="text-2xl font-bold mb-6">{board.title}</h1>
 
-      {/* 🔹 Zakładki */}
       <div className="flex gap-5 text-xs mb-4 text-gray-600 border-b border-gray-600 pb-2 w-fit">
         <NavLink
           to={`/board/${boardId}`}

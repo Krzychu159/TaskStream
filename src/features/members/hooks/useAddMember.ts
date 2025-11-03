@@ -1,23 +1,31 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addBoardMember } from "../api/membersApi";
+import { toast } from "react-hot-toast";
 
 export const useAddMember = (boardId: number) => {
-  return useMutation({
-    mutationFn: async (variables: {
-      boardId: number;
-      userId: string;
-      role: string;
-    }) => {
-      const result = await addBoardMember(
-        boardId,
-        variables.userId,
-        variables.role
-      );
+  const queryClient = useQueryClient();
 
-      if (!result) {
-        throw new Error("Failed to add member");
+  return useMutation({
+    mutationFn: async ({ email, role }: { email: string; role: string }) =>
+      addBoardMember(boardId, email, role),
+
+    onSuccess: () => {
+      toast.success("Member invited!");
+      queryClient.invalidateQueries({ queryKey: ["members", boardId] });
+    },
+
+    onError: (error: unknown) => {
+      const err = error as { message?: string };
+
+      if (err.message === "User not found") {
+        toast.error("No user found with that email");
+      } else if (err.message?.includes("duplicate key value")) {
+        toast.error("That user is already a member of this board");
+      } else {
+        toast.error(
+          "There is not a user with this email or an error occurred."
+        );
       }
-      return result;
     },
   });
 };
