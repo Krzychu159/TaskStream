@@ -21,4 +21,5 @@ const TEST_USER: User = {
 export const useUserStore = create<UserStore>((set) => ({
   user: TEST_USER,
   setUser: (user) => set({ user }),
+  logout: () => set({ user: null }),
 }));
