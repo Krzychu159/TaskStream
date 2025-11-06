@@ -13,6 +13,7 @@ import { useDndHandlers } from "../hooks/useDndHandlers";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import type { DropResult } from "@hello-pangea/dnd";
 import CardModal from "@/features/card/components/CardModal";
+import { CreateList } from "@/features/list/components/CreateList";
 
 export const BoardScreen = () => {
   const { id } = useParams<{ id: string }>();
@@ -88,7 +89,7 @@ export const BoardScreen = () => {
 
   return (
     <>
-      <div className="p-4">
+      <div className="p-4 flex gap-6 overflow-x-auto h-full">
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="board" direction="horizontal" type="list">
             {(provided) => (
@@ -105,10 +106,12 @@ export const BoardScreen = () => {
                     index={index}
                   />
                 ))}
+
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
+          {!isNaN(boardId) && <CreateList boardId={boardId} />}
 
           <CardModal />
         </DragDropContext>

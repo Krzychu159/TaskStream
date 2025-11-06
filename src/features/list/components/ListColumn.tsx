@@ -6,6 +6,7 @@ import { useCreateCard } from "@/features/card/hooks/useCreateCard";
 import { ui } from "@/ui/styles";
 import { motion, AnimatePresence } from "framer-motion";
 import { RxDragHandleDots2 } from "react-icons/rx";
+import { useDeleteList } from "@/features/list/hooks/useDeleteList";
 
 type Props = {
   list: List;
@@ -18,6 +19,7 @@ export default function ListColumn({ list, cards, index }: Props) {
   const [showForm, setShowForm] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutate: deleteList, isPending } = useDeleteList(list.board_id);
 
   const handleSubmit = async () => {
     if (!newTitle.trim()) return;
@@ -64,8 +66,15 @@ export default function ListColumn({ list, cards, index }: Props) {
                     <CardItem key={card.id} card={card} index={idx} />
                   ))
                 ) : (
-                  <div className="text-sm text-gray-500 italic mb-2">
-                    (No cards yet)
+                  <div className="text-sm text-gray-500 italic mb-2 flex flex-col gap-2">
+                    <div>(No cards yet)</div>
+                    <button
+                      className="w-fit hover:cursor-pointer hover:text-red-500 hover:underline"
+                      onClick={() => deleteList(list.id)}
+                      disabled={isPending}
+                    >
+                      Delete list
+                    </button>
                   </div>
                 )}
                 {dropProvided.placeholder}
