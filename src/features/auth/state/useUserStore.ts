@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 type User = {
   id: string;
+  email: string;
   full_name: string;
   role: "admin" | "user";
 };
@@ -9,17 +10,11 @@ type User = {
 type UserStore = {
   user: User | null;
   setUser: (user: User | null) => void;
-};
-
-// Krzysiek (Admin) - for development purposes
-const TEST_USER: User = {
-  id: "11111111-1111-1111-1111-111111111111",
-  full_name: "Krzysiek (Admin)",
-  role: "admin",
+  logout: () => void;
 };
 
 export const useUserStore = create<UserStore>((set) => ({
-  user: TEST_USER,
+  user: null,
   setUser: (user) => set({ user }),
   logout: () => set({ user: null }),
 }));

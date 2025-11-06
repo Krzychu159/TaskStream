@@ -22,6 +22,11 @@ export default function Dashboard() {
         <div className="mt-6 w-full max-w-4xl">
           <h2 className="text-2xl font-semibold mb-4">Your Boards</h2>
           <ul className="space-y-2">
+            {board.length === 0 && (
+              <li className="p-4 bg-white rounded shadow">
+                You have no boards. Create one to get started!
+              </li>
+            )}
             {board.map((b) => (
               <Link to={`/board/${b.id}`} key={b.id} className="block">
                 <li

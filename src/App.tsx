@@ -5,13 +5,14 @@ import ProtectedRoute from "@/features/auth/components/ProtectedRoute";
 
 import LoginPage from "@/features/auth/screens/LoginPage";
 import RegisterPage from "./features/auth/screens/RegisterPage";
+import LogoutPage from "@/features/auth/screens/LogoutPage";
 
 import BoardPage from "@/features/board/screens/BoardPage";
 import { BoardScreen } from "@/features/board/screens/BoardScreen";
 import MembersPage from "@/features/board/screens/MembersPage";
 import EditBoardPage from "@/features/board/screens/EditBoardPage";
 import Dashboard from "@/pages/Dashboard";
-import UserSwitcher from "@/features/auth/components/UserSitcher";
+import UserBar from "@/features/auth/components/UserBar";
 
 import "./index.css";
 
@@ -22,12 +23,13 @@ export default function App() {
     <div className="relative min-h-screen">
       <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
 
-      <UserSwitcher />
+      <UserBar />
 
       <Routes>
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/logout" element={<LogoutPage />} />
 
         {/* Protected routes */}
         <Route
