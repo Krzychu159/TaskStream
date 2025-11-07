@@ -36,7 +36,7 @@ export default function InviteMemberForm({ boardId }: { boardId: number }) {
         <input
           type="email"
           placeholder="email@example.com"
-          className={`${ui.input} flex-1 `}
+          className={`${ui.input} `}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isPending}
@@ -46,7 +46,7 @@ export default function InviteMemberForm({ boardId }: { boardId: number }) {
           value={role}
           onChange={(e) => setRole(e.target.value)}
           disabled={isPending}
-          className={`${ui.input} w-32`}
+          className={`${ui.input} w-48`}
         >
           <option value="member">Member</option>
           <option value="admin">Admin</option>

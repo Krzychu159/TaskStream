@@ -91,6 +91,8 @@ export const BoardScreen = () => {
     <>
       <div className="p-4 flex gap-6 overflow-x-auto h-full">
         <DragDropContext onDragEnd={onDragEnd}>
+          {lists?.length === 0 ? <div>No Lists yet, add first!</div> : null}
+
           <Droppable droppableId="board" direction="horizontal" type="list">
             {(provided) => (
               <div

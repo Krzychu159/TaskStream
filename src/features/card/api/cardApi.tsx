@@ -28,6 +28,10 @@ export const createCard = async (
   title: string,
   description?: string
 ) => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { data, error } = await supabase
     .from("cards")
     .insert([
@@ -36,13 +40,13 @@ export const createCard = async (
         list_id,
         title,
         description,
+        created_by: user?.id,
       },
     ])
     .select()
     .single();
-  if (error) throw error;
-  console.log("Creating card:", { board_id, list_id, title, description });
 
+  if (error) throw error;
   return data;
 };
 

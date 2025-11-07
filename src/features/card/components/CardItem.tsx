@@ -8,6 +8,7 @@ import { useUpdateCard } from "@/features/card/hooks/useUpdateCard";
 import type { Card } from "@/lib/types";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import { FaEye } from "react-icons/fa";
 import { ui } from "@/ui/styles";
 
 export default function CardItem({
@@ -57,7 +58,7 @@ export default function CardItem({
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className="bg-white rounded shadow p-3 mb-3 flex items-start gap-2 hover:bg-gray-50 cursor-grab active:cursor-grabbing"
+          className="bg-white rounded shadow p-3 mb-3 flex items-center gap-2 hover:bg-gray-50 cursor-grab active:cursor-grabbing"
           onClick={() => !isTitleEditing && open(card.id)}
         >
           <RxDragHandleDots2 size={16} className="text-gray-400 mt-1" />
@@ -90,6 +91,9 @@ export default function CardItem({
               {card.title}
             </h3>
           )}
+          <button>
+            <FaEye onClick={() => !isTitleEditing && open(card.id)} />
+          </button>
           <button
             disabled={isDeleting}
             onClick={(e) => {

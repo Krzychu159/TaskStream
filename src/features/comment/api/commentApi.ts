@@ -3,25 +3,30 @@ import { supabase } from "@/lib/supabaseClient";
 export const fetchCommentsByCardId = async (cardId: number) => {
   const { data, error } = await supabase
     .from("comments")
-    .select("*")
+    .select("*, profiles(full_name)")
     .eq("card_id", cardId)
     .order("created_at", { ascending: true });
   if (error) throw error;
   return data;
 };
 
-export const addComment = async (cardId: number, text: string) => {
+export const addComment = async (
+  cardId: number,
+  text: string,
+  authorId: string
+) => {
   const { data, error } = await supabase
     .from("comments")
     .insert([
       {
         card_id: cardId,
-        author_id: "31637381-08d8-4713-b272-958005885799",
+        author_id: authorId,
         text,
       },
     ])
-    .select()
+    .select("*, profiles(full_name, avatar_url)") // ⬅️ od razu pobieramy dane autora
     .single();
+
   if (error) throw error;
   return data;
 };

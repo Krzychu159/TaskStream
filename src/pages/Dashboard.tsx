@@ -1,3 +1,4 @@
+import { CreateBoard } from "@/features/board/components/CreateBoard";
 import ErrorMessage from "@/ui/ErrorMessage";
 import Loader from "@/ui/Loader";
 import { useAllBoards } from "@features/board/hooks/useAllBoards";
@@ -21,22 +22,32 @@ export default function Dashboard() {
       {board && (
         <div className="mt-6 w-full max-w-4xl">
           <h2 className="text-2xl font-semibold mb-4">Your Boards</h2>
-          <ul className="space-y-2">
-            {board.length === 0 && (
-              <li className="p-4 bg-white rounded shadow">
-                You have no boards. Create one to get started!
-              </li>
-            )}
-            {board.map((b) => (
-              <Link to={`/board/${b.id}`} key={b.id} className="block">
-                <li
-                  key={b.id}
-                  className="p-4 bg-white rounded shadow hover:bg-gray-50"
-                >
-                  {b.title}
+
+          <ul className="space-y-2 list-none">
+            {board.length === 0 ? (
+              <>
+                <li className="p-4 bg-white rounded shadow">
+                  You have no boards. Create one to get started!
                 </li>
-              </Link>
-            ))}
+
+                <CreateBoard />
+              </>
+            ) : (
+              <>
+                {board.map((b) => (
+                  <li key={b.id}>
+                    <Link
+                      to={`/board/${b.id}`}
+                      className="block p-4 bg-white rounded shadow hover:bg-gray-50"
+                    >
+                      {b.title}
+                    </Link>
+                  </li>
+                ))}
+
+                <CreateBoard />
+              </>
+            )}
           </ul>
         </div>
       )}

@@ -57,3 +57,19 @@ export const updateBoard = async (
   if (error) throw error;
   return data;
 };
+
+export const createBoard = async (title: string, owner_id: string) => {
+  const { data, error } = await supabase
+    .from("boards")
+    .insert([
+      {
+        title,
+        owner_id,
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
