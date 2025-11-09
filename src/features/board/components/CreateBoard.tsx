@@ -46,6 +46,7 @@ export const CreateBoard = () => {
                 handleAdd();
               }
             }}
+            placeholder="New Board title"
           />
           {isPending ? (
             <InlineLoader />

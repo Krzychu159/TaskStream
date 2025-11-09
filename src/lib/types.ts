@@ -8,16 +8,17 @@ export type List = {
 
 export type Card = {
   id: number;
+  title: string;
   board_id: number;
   list_id: number;
-  title: string;
-  description: string;
-  position: number;
-  created_at: string;
-  created_by: string | null;
-  due: string | null;
-  archived: boolean;
+  created_by: string;
+  // ...
+  profiles?: {
+    full_name: string;
+    avatar_url?: string;
+  };
 };
+
 export type Board = {
   id: number;
   title: string;

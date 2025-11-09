@@ -4,7 +4,15 @@ import type { Card } from "@/lib/types";
 export const fetchCardsByBoardId = async (boardId: number) => {
   const { data, error } = await supabase
     .from("cards")
-    .select("*")
+    .select(
+      `
+      *,
+      profiles:created_by (
+        full_name,
+        avatar_url
+      )
+    `
+    )
     .eq("board_id", boardId)
     .order("position", { ascending: true });
 
@@ -27,10 +35,14 @@ export const createCard = async (
   list_id: number,
   title: string,
   description?: string
-) => {
+): Promise<Card> => {
   const {
     data: { user },
+    error: userError,
   } = await supabase.auth.getUser();
+
+  if (userError) throw new Error("Failed to get user session");
+  if (!user) throw new Error("User not logged in");
 
   const { data, error } = await supabase
     .from("cards")
@@ -40,14 +52,22 @@ export const createCard = async (
         list_id,
         title,
         description,
-        created_by: user?.id,
+        created_by: user.id,
       },
     ])
-    .select()
+    .select(
+      `
+        *,
+        profiles:created_by (
+          full_name,
+          avatar_url
+        )
+      `
+    )
     .single();
 
   if (error) throw error;
-  return data;
+  return data as Card;
 };
 
 export const updateCard = async (id: number, updates: Partial<Card>) => {

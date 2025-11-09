@@ -15,6 +15,7 @@ import Dashboard from "@/pages/Dashboard";
 import UserBar from "@/features/auth/components/UserBar";
 
 import "./index.css";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
   useAuthUser();
@@ -30,7 +31,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/logout" element={<LogoutPage />} />
-
+        <Route path="*" element={<NotFoundPage />} />
         {/* Protected routes */}
         <Route
           path="/"

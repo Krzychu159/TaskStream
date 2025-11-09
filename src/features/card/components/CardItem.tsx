@@ -91,6 +91,17 @@ export default function CardItem({
               {card.title}
             </h3>
           )}
+          <div className="w-6 h-6 rounded-full overflow-hidden border">
+            <img
+              src={
+                card.profiles?.avatar_url ||
+                "https://cdn-icons-png.flaticon.com/512/219/219983.png"
+              }
+              alt={card.profiles?.full_name || "User"}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
           <button>
             <FaEye onClick={() => !isTitleEditing && open(card.id)} />
           </button>
