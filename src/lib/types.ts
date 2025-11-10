@@ -6,18 +6,26 @@ export type List = {
   created_at: string;
 };
 
-export type Card = {
+export interface Card {
   id: number;
   title: string;
-  board_id: number;
   list_id: number;
+  board_id: number;
   created_by: string;
-  // ...
+  created_at: string;
+
+  /** 🟢 Pozycja karty w liście (dla DnD) */
+  position?: number;
+
+  /** 🟢 Opis karty (dla modala itp.) */
+  description?: string;
+
+  /** (opcjonalnie) relacja do profilu autora */
   profiles?: {
-    full_name: string;
+    full_name?: string;
     avatar_url?: string;
   };
-};
+}
 
 export type Board = {
   id: number;
