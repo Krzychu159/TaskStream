@@ -1,73 +1,133 @@
-# React + TypeScript + Vite
+📘 TaskStream — Trello-Like Project Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live: task-stream.vercel.app
+Repozytorium: github.com/Krzychu159/TaskStream
 
-Currently, two official plugins are available:
+🚀 Opis projektu
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+TaskStream to nowoczesna aplikacja do zarządzania projektami inspirowana Trello i Linear.
+Pozwala tworzyć tablice, listy, karty i komentarze — z pełnym systemem ról, priorytetami, drag & drop oraz synchronizacją w czasie rzeczywistym.
 
-## React Compiler
+Projekt został zaprojektowany jako pełnoprawne MVP aplikacji SaaS, z myślą o nauce i portfolio frontend developera.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+✨ Kluczowe funkcje
 
-## Expanding the ESLint configuration
+✅ Autoryzacja i profile
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Rejestracja i logowanie przez Supabase Auth
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Pełna synchronizacja profilu użytkownika (profiles table)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Persistent session po odświeżeniu
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+✅ Zarządzanie tablicami (Boards)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Tworzenie, edycja i usuwanie tablic
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Członkowie tablicy z rolami (admin / member)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Edycja tytułu i opisu
+
+✅ Listy i karty (Lists & Cards)
+
+Tworzenie, edycja, usuwanie
+
+Drag & Drop z optimistic UI
+
+Realtime sync między użytkownikami
+
+Inline edycja tytułów
+
+System priorytetów (Low / Medium / High)
+
+✅ Komentarze
+
+CRUD komentarzy z optimistic updates
+
+Autor komentarza (relacja profiles)
+
+Edycja inline, toasty, walidacje
+
+✅ Uprawnienia i role
+
+Admin może usuwać i edytować wszystko
+
+Member – tylko własne zasoby
+
+Viewer – tylko podgląd
+
+✅ Realtime
+
+Zmiany widoczne natychmiast dzięki Supabase Realtime Channels
+
+✅ UX / UI
+
+Tailwind + Framer Motion
+
+Toasty, loadery, empty states
+
+Responsywny design (mobile / desktop)
+
+Kolorowe oznaczenia priorytetów
+
+🧠 Stack technologiczny
+Warstwa	Technologie
+Frontend	React 18, TypeScript, React Router, Zustand, React Query
+Backend (BaaS)	Supabase (Auth + DB + Realtime)
+Stylizacja	TailwindCSS + Framer Motion + react-hot-toast
+DnD	@hello-pangea/dnd
+Hosting	Vercel
+Baza	Postgres (Supabase SQL)
+🧩 Struktura projektu
+src/
+ ├─ features/
+ │   ├─ auth/          # logowanie, rejestracja, user store
+ │   ├─ board/         # widok tablicy, edycja, członkowie
+ │   ├─ list/          # listy i DnD
+ │   ├─ card/          # karty, opis, modal, komentarze
+ │   ├─ comment/       # CRUD komentarzy
+ │   ├─ members/       # członkowie tablicy
+ │   └─ priority/      # system priorytetów
+ ├─ lib/
+ │   ├─ supabaseClient.ts
+ │   └─ types.ts
+ └─ ui/
+     ├─ InlineLoader.tsx
+     ├─ Loader.tsx
+     ├─ ErrorMessage.tsx
+     └─ styles.ts
+
+🧪 Dane testowe (Demo)
+
+🔑 Login: gyw69262@laoia.com
+
+🔒 Hasło: test123
+
+💻 Działanie projektu
+
+1️⃣ Zaloguj się lub utwórz konto.
+2️⃣ Dodaj tablicę w dashboardzie.
+3️⃣ Twórz listy i karty — możesz je przeciągać.
+4️⃣ Otwórz kartę, dodaj komentarz lub ustaw priorytet.
+5️⃣ Wszystko synchronizuje się w czasie rzeczywistym 🚀
+
+🧹 Checklista końcowa
+Obszar	Status
+Supabase Auth & Profiles	✅
+Realtime Channels	✅
+Rejestracja / Logowanie / Logout	✅
+CRUD Boards / Lists / Cards	✅
+Comments CRUD	✅
+Role & Permissions	✅
+DnD Cards & Lists	✅
+Priority System	✅
+Responsywny UX	✅
+Toasts & Loaders	✅
+Error states & Empty screens	✅
+Favicon & Metadata	⚙️ (do uzupełnienia)
+README z opisem	🟢 (masz właśnie gotowy opis)
+🏁 Status projektu
+
+✅ Projekt ukończony
+📦 Stabilny build na Vercelu
+🎯 Gotowy do portfolio i pokazania rekruterom
