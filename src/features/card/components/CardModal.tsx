@@ -11,6 +11,7 @@ import { InlineLoader } from "@/ui/InlineLoader";
 import CommentList from "@/features/comment/components/CommentList";
 import CommentForm from "@/features/comment/components/CommentForm";
 import { usePermissions } from "@/features/auth/hooks/usePermissions";
+import PrioritySelector from "./PrioritySelector";
 
 export default function CardModal() {
   const { openCardId, close } = useCardModal();
@@ -194,6 +195,15 @@ export default function CardModal() {
                       {card.description || "No description"}
                     </div>
                   )}
+
+                  <div>
+                    <div className="text-xs text-gray-500 pb-1">Priority</div>
+                    <PrioritySelector
+                      cardId={card.id}
+                      boardId={card.board_id}
+                      current={card.priority}
+                    />
+                  </div>
 
                   <CommentList cardId={card.id} />
                   <CommentForm cardId={card.id} />

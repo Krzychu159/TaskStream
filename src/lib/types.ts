@@ -13,6 +13,7 @@ export interface Card {
   board_id: number;
   created_by: string;
   created_at: string;
+  priority: string;
 
   /** 🟢 Pozycja karty w liście (dla DnD) */
   position?: number;

@@ -25,7 +25,9 @@ export default function CommentList({ cardId }: Props) {
           <CommentItem key={comment.id} comment={comment} />
         ))
       ) : (
-        <div className="text-sm text-gray-500 italic">(No comments yet)</div>
+        <div className="text-sm text-gray-500 italic mb-3">
+          (No comments yet)
+        </div>
       )}
     </div>
   );

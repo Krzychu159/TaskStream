@@ -58,7 +58,17 @@ export default function CardItem({
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className="bg-white rounded shadow p-3 mb-3 flex items-center gap-2 hover:bg-gray-50 cursor-grab active:cursor-grabbing"
+          className={`bg-white text-sm rounded shadow p-3 mb-3 flex items-center gap-2 hover:bg-gray-50 cursor-grab active:cursor-grabbing
+  ${
+    card.priority === "low"
+      ? "border-b-2 border-green-500"
+      : card.priority === "medium"
+      ? "border-b-2 border-yellow-400"
+      : card.priority === "high"
+      ? "border-b-2 border-red-500"
+      : ""
+  }
+`}
           onClick={() => !isTitleEditing && open(card.id)}
         >
           <RxDragHandleDots2 size={16} className="text-gray-400 mt-1" />
@@ -82,7 +92,7 @@ export default function CardItem({
             />
           ) : (
             <h3
-              className="font-medium cursor-text flex-1 truncate"
+              className="font-medium  cursor-text flex-1 truncate"
               onClick={(e) => {
                 e.stopPropagation();
                 setIsTitleEditing(true);

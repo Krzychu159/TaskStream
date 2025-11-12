@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { supabase } from "@/lib/supabaseClient";
 import { ui } from "@/ui/styles";
@@ -77,6 +77,12 @@ export default function RegisterPage() {
       >
         Register
       </button>
+      <Link to={"/login"}>
+        <div className="flex flex-col justify-center align-center">
+          <div className="mx-auto">Do you have an account? </div>{" "}
+          <div className="mx-auto text-blue-500 font-bold">Log in here!</div>
+        </div>
+      </Link>
     </div>
   );
 }
