@@ -1,113 +1,83 @@
-📘 TaskStream — Trello-Like Project Manager
+# 📘 TaskStream — Trello-Like Project Manager
 
-Live: task-stream.vercel.app
-Repozytorium: github.com/Krzychu159/TaskStream
+**Live:** [task-stream.vercel.app](https://task-stream.vercel.app)  
+**Repository:** [github.com/Krzychu159/TaskStream](https://github.com/Krzychu159/TaskStream)
 
-🚀 Opis projektu
+## 🚀 Project Overview
 
-TaskStream to nowoczesna aplikacja do zarządzania projektami inspirowana Trello i Linear.
-Pozwala tworzyć tablice, listy, karty i komentarze — z pełnym systemem ról, priorytetami, drag & drop oraz synchronizacją w czasie rzeczywistym.
+**TaskStream** is a modern project management app inspired by **Trello** and **Linear**.  
+It lets you create boards, lists, cards, and comments — with full role system, priorities, drag & drop, and real-time synchronization.  
+Built as a **complete SaaS-style MVP**, designed for learning and portfolio presentation.
 
-Projekt został zaprojektowany jako pełnoprawne MVP aplikacji SaaS, z myślą o nauce i portfolio frontend developera.
+## ✨ Key Features
 
-✨ Kluczowe funkcje
+✅ **Authentication & Profiles**
+- Sign up / log in via Supabase Auth  
+- Full user profile sync (`profiles` table)  
+- Persistent session after refresh  
 
-✅ Autoryzacja i profile
+✅ **Boards**
+- Create, edit, and delete boards  
+- Manage members with roles (admin / member)  
+- Edit title and description  
 
-Rejestracja i logowanie przez Supabase Auth
+✅ **Lists & Cards**
+- Full CRUD for lists and cards  
+- Drag & Drop with optimistic UI  
+- Real-time sync between users  
+- Inline title editing  
+- Priority system (Low 🟢 / Medium 🟡 / High 🔴)  
 
-Pełna synchronizacja profilu użytkownika (profiles table)
+✅ **Comments**
+- Full CRUD with optimistic updates  
+- Linked author (via `profiles`)  
+- Inline editing, validation, toasts  
 
-Persistent session po odświeżeniu
+✅ **Roles & Permissions**
+- Admin → full access  
+- Member → manage own data only  
+- Viewer → read-only  
 
-✅ Zarządzanie tablicami (Boards)
+✅ **Realtime**
+- Instant updates through Supabase Realtime Channels  
 
-Tworzenie, edycja i usuwanie tablic
+✅ **UX / UI**
+- TailwindCSS + Framer Motion  
+- Toasts, loaders, empty states  
+- Responsive layout with smooth animations  
 
-Członkowie tablicy z rolami (admin / member)
+## 🧠 Tech Stack
 
-Edycja tytułu i opisu
+| Layer | Technologies |
+|--------|---------------|
+| **Frontend** | React 18, TypeScript, Zustand, React Query, React Router |
+| **Backend (BaaS)** | Supabase (Auth + Database + Realtime) |
+| **Styling** | TailwindCSS + Framer Motion + react-hot-toast |
+| **Drag & Drop** | @hello-pangea/dnd |
+| **Hosting** | Vercel |
+| **Database** | PostgreSQL (Supabase SQL) |
 
-✅ Listy i karty (Lists & Cards)
-
-Tworzenie, edycja, usuwanie
-
-Drag & Drop z optimistic UI
-
-Realtime sync między użytkownikami
-
-Inline edycja tytułów
-
-System priorytetów (Low / Medium / High)
-
-✅ Komentarze
-
-CRUD komentarzy z optimistic updates
-
-Autor komentarza (relacja profiles)
-
-Edycja inline, toasty, walidacje
-
-✅ Uprawnienia i role
-
-Admin może usuwać i edytować wszystko
-
-Member – tylko własne zasoby
-
-Viewer – tylko podgląd
-
-✅ Realtime
-
-Zmiany widoczne natychmiast dzięki Supabase Realtime Channels
-
-✅ UX / UI
-
-Tailwind + Framer Motion
-
-Toasty, loadery, empty states
-
-Responsywny design (mobile / desktop)
-
-Kolorowe oznaczenia priorytetów
-
-🧠 Stack technologiczny
-Warstwa	Technologie
-Frontend	React 18, TypeScript, React Router, Zustand, React Query
-Backend (BaaS)	Supabase (Auth + DB + Realtime)
-Stylizacja	TailwindCSS + Framer Motion + react-hot-toast
-DnD	@hello-pangea/dnd
-Hosting	Vercel
-Baza	Postgres (Supabase SQL)
-🧩 Struktura projektu
+## 🧩 Project Structure
 src/
- ├─ features/
- │   ├─ auth/          # logowanie, rejestracja, user store
- │   ├─ board/         # widok tablicy, edycja, członkowie
- │   ├─ list/          # listy i DnD
- │   ├─ card/          # karty, opis, modal, komentarze
- │   ├─ comment/       # CRUD komentarzy
- │   ├─ members/       # członkowie tablicy
- │   └─ priority/      # system priorytetów
- ├─ lib/
- │   ├─ supabaseClient.ts
- │   └─ types.ts
- └─ ui/
-     ├─ InlineLoader.tsx
-     ├─ Loader.tsx
-     ├─ ErrorMessage.tsx
-     └─ styles.ts
+├─ features/
+│ ├─ auth/ # login, register, user store
+│ ├─ board/ # boards, edit, members
+│ ├─ list/ # lists & DnD
+│ ├─ card/ # cards, modal, comments
+│ ├─ comment/ # comment CRUD
+│ └─ members/ # board members
+├─ lib/ # supabaseClient, types
+└─ ui/ # shared UI components (Loader, styles, etc.)
 
-🧪 Dane testowe (Demo)
+## 🧪 Demo Account
 
-🔑 Login: gyw69262@laoia.com
+🔑 **Login:** `gyw69262@laoia.com`  
+🔒 **Password:** `test123`
 
-🔒 Hasło: test123
+## 💻 How It Works
 
-💻 Działanie projektu
-
-1️⃣ Zaloguj się lub utwórz konto.
-2️⃣ Dodaj tablicę w dashboardzie.
-3️⃣ Twórz listy i karty — możesz je przeciągać.
-4️⃣ Otwórz kartę, dodaj komentarz lub ustaw priorytet.
-5️⃣ Wszystko synchronizuje się w czasie rzeczywistym 🚀
-
+1️⃣ Log in or register  
+2️⃣ Create a board on the dashboard  
+3️⃣ Add lists and cards — drag & drop freely  
+4️⃣ Open a card to add comments or set a priority  
+5️⃣ Watch everything sync in real time 🚀
