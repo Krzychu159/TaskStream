@@ -12,52 +12,60 @@ Built as a **complete SaaS-style MVP**, designed for learning and portfolio pres
 ## ✨ Key Features
 
 ✅ **Authentication & Profiles**
-- Sign up / log in via Supabase Auth  
-- Full user profile sync (`profiles` table)  
-- Persistent session after refresh  
+
+- Sign up / log in via Supabase Auth
+- Full user profile sync (`profiles` table)
+- Persistent session after refresh
 
 ✅ **Boards**
-- Create, edit, and delete boards  
-- Manage members with roles (admin / member)  
-- Edit title and description  
+
+- Create, edit, and delete boards
+- Manage members with roles (admin / member)
+- Edit title and description
 
 ✅ **Lists & Cards**
-- Full CRUD for lists and cards  
-- Drag & Drop with optimistic UI  
-- Real-time sync between users  
-- Inline title editing  
-- Priority system (Low 🟢 / Medium 🟡 / High 🔴)  
+
+- Full CRUD for lists and cards
+- Drag & Drop with optimistic UI
+- Real-time sync between users
+- Inline title editing
+- Priority system (Low 🟢 / Medium 🟡 / High 🔴)
 
 ✅ **Comments**
-- Full CRUD with optimistic updates  
-- Linked author (via `profiles`)  
-- Inline editing, validation, toasts  
+
+- Full CRUD with optimistic updates
+- Linked author (via `profiles`)
+- Inline editing, validation, toasts
 
 ✅ **Roles & Permissions**
-- Admin → full access  
-- Member → manage own data only  
-- Viewer → read-only  
+
+- Admin → full access
+- Member → manage own data only
+- Viewer → read-only
 
 ✅ **Realtime**
-- Instant updates through Supabase Realtime Channels  
+
+- Instant updates through Supabase Realtime Channels
 
 ✅ **UX / UI**
-- TailwindCSS + Framer Motion  
-- Toasts, loaders, empty states  
-- Responsive layout with smooth animations  
+
+- TailwindCSS + Framer Motion
+- Toasts, loaders, empty states
+- Responsive layout with smooth animations
 
 ## 🧠 Tech Stack
 
-| Layer | Technologies |
-|--------|---------------|
-| **Frontend** | React 18, TypeScript, Zustand, React Query, React Router |
-| **Backend (BaaS)** | Supabase (Auth + Database + Realtime) |
-| **Styling** | TailwindCSS + Framer Motion + react-hot-toast |
-| **Drag & Drop** | @hello-pangea/dnd |
-| **Hosting** | Vercel |
-| **Database** | PostgreSQL (Supabase SQL) |
+| Layer              | Technologies                                             |
+| ------------------ | -------------------------------------------------------- |
+| **Frontend**       | React 18, TypeScript, Zustand, React Query, React Router |
+| **Backend (BaaS)** | Supabase (Auth + Database + Realtime)                    |
+| **Styling**        | TailwindCSS + Framer Motion + react-hot-toast            |
+| **Drag & Drop**    | @hello-pangea/dnd                                        |
+| **Hosting**        | Vercel                                                   |
+| **Database**       | PostgreSQL (Supabase SQL)                                |
 
 ## 🧩 Project Structure
+
 src/
 ├─ features/
 │ ├─ auth/ # login, register, user store

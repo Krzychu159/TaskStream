@@ -10,7 +10,15 @@ export default function BoardPage() {
 
   if (isLoading) return <Loader text="Loading board..." />;
   if (error) return <ErrorMessage message="Failed to load board" />;
-  if (!board) return <div>Board not found</div>;
+  if (!board)
+    return (
+      <div className="text-xl m-auto w-max mt-16 font-bold">
+        Board not Found - check if your link is correct or{" "}
+        <NavLink to="/">
+          <span className="text-blue-500">go back to dashboard</span>
+        </NavLink>
+      </div>
+    );
 
   return (
     <div className="p-4">
