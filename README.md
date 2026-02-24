@@ -1,13 +1,18 @@
 # 📘 TaskStream — Trello-Like Project Manager
 
 **Live:** [task-stream.vercel.app](https://task-stream.vercel.app)  
-**Repository:** [github.com/Krzychu159/TaskStream](https://github.com/Krzychu159/TaskStream)
 
 ## 🚀 Project Overview
 
 **TaskStream** is a modern project management app inspired by **Trello** and **Linear**.  
 It lets you create boards, lists, cards, and comments — with full role system, priorities, drag & drop, and real-time synchronization.  
 Built as a **complete SaaS-style MVP**, designed for learning and portfolio presentation.
+
+<img width="1893" height="904" alt="{ECB34BC3-7C73-4460-8135-AB0FB46C159A}" src="https://github.com/user-attachments/assets/eb0c473b-0cd7-4e3c-91dc-54e86ac2ac1f" />
+<img width="1914" height="903" alt="{E544F7FC-FDE4-4DD4-A28A-E7A91617BFCD}" src="https://github.com/user-attachments/assets/5dbe2f66-df17-48f4-a199-76babfe90a86" />
+<img width="709" height="565" alt="{DE1C72A2-F2F7-41A8-8B70-1E6A97FF28EF}" src="https://github.com/user-attachments/assets/3182dc5f-edde-4ca3-8a82-2e5c958f8bb5" />
+
+
 
 ## ✨ Key Features
 
